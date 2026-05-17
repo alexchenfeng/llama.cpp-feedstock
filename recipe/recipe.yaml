@@ -1,6 +1,6 @@
 context:
   name: llama.cpp
-  version: "9049"
+  version: "9190"
   build: 0
   # ensure arm_variant_type gets detected as a used variable
   touch_arm_variant_type: ${{ arm_variant_type if (linux and aarch64) else "None" }}
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version ~ "" | split(".") | list | last }}.tar.gz
-  sha256: 08a006aadb4b1a33e981aae42af71e43cf348e5d0671707b9fb4dea5c1ab7237
+  sha256: cdaeccf71b2af64847eb0b06dd0e852c0a2330c0983b7327cd257d3d1cd03694
 
 build:
   # See https://conda-forge.org/docs/user/tipsandtricks/#installing-cuda-enabled-packages-like-tensorflow-and-pytorch
@@ -43,7 +43,7 @@ build:
         {%- endif %}
 
         echo hello
-        LLAMA_ARGS="-DLLAMA_BUILD_TESTS=OFF"
+        LLAMA_ARGS="-DLLAMA_BUILD_TESTS=OFF -DGGML_RPC=ON"
 
         {%- macro llama_args(value) %}
         LLAMA_ARGS="${LLAMA_ARGS} -DLLAMA_${{ value }}"
@@ -183,7 +183,7 @@ requirements:
       then:
         - libvulkan-headers
         - libvulkan-loader
-        - shaderc
+        - shaderc 2026.*
     - if: cuda_compiler_version != "None"
       then:
         # NOTE: Without cuda-version, we are installing cuda-toolkit 11.8 instead of 11.2!
