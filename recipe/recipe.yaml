@@ -1,6 +1,6 @@
 context:
   name: llama.cpp
-  version: "10015"
+  version: "10448"
   build: 0
   # ensure arm_variant_type gets detected as a used variable
   touch_arm_variant_type: ${{ arm_variant_type if (linux and aarch64) else "None" }}
@@ -11,7 +11,11 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version ~ "" | split(".") | list | last }}.tar.gz
-  sha256: 5ab75e394f4c71425ecce64a213dab3b8e3e9cfe0f19d0dcda4d5a4f7733da83
+  sha256: 85791799efe44625718640e3dcedb6112a132018e38e61e43190b1ff37ade355
+  patches:
+    - if: linux
+      then:
+        - patches/0001-vulkan-disable-spirv-opt-for-cm2-ocp.patch
 
 build:
   # See https://conda-forge.org/docs/user/tipsandtricks/#installing-cuda-enabled-packages-like-tensorflow-and-pytorch
