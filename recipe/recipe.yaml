@@ -1,7 +1,7 @@
 context:
   name: llama.cpp
-  version: "10448"
-  build: 0
+  version: "10472"
+  build: 0 
   # ensure arm_variant_type gets detected as a used variable
   touch_arm_variant_type: ${{ arm_variant_type if (linux and aarch64) else "None" }}
 
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/ggml-org/${{ name }}/archive/b${{ version ~ "" | split(".") | list | last }}.tar.gz
-  sha256: 85791799efe44625718640e3dcedb6112a132018e38e61e43190b1ff37ade355
+  sha256: bd0a56fe17be2886c6f0d531143b9e23aacb178044008729422783ab5f8bf881
   patches:
     - if: linux
       then:
@@ -187,7 +187,7 @@ requirements:
       then:
         - libvulkan-headers
         - libvulkan-loader
-        - shaderc 2026.*
+        - shaderc 2026.2.*
     - if: cuda_compiler_version != "None"
       then:
         # NOTE: Without cuda-version, we are installing cuda-toolkit 11.8 instead of 11.2!
